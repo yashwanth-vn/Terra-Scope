@@ -91,15 +91,9 @@ export const ChatBot = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-xl border flex flex-col z-40">
-      <div className="flex items-center justify-between p-3 border-b bg-green-50 rounded-t-lg">
+          className="p-1 hover:bg-gray-200 rounded"
         <div>
           <h3 className="font-semibold text-gray-900">Chat Assistant</h3>
-        </div>
-        <button
-          onClick={onClose}
-          className="p-1 hover:bg-gray-200 rounded"
-        >
-          <X className="w-4 h-4" />
         </button>
       </div>
 
@@ -111,10 +105,9 @@ export const ChatBot = ({ isOpen, onClose }) => {
           >
             <div
                 message.isUser
+                  : 'bg-gray-100 text-gray-900'
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-100 text-gray-900'
-              }`}
-            >
               <p className="text-sm">{message.text}</p>
             </div>
           </div>
@@ -159,19 +152,6 @@ export const ChatBot = ({ isOpen, onClose }) => {
                   ? 'bg-red-600 text-white'
                   : 'bg-gray-200 text-gray-600'
               }`}
-            >
-              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-            </button>
-          )}
-          
-          <button
-            onClick={handleSendMessage}
-            disabled={!inputText.trim()}
-            className="p-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
-          >
-            <Send className="w-4 h-4" />
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -31,8 +31,6 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
       <div className="mb-6">
         <h2 className="text-xl font-bold text-gray-900 mb-2">Enter Soil Data</h2>
         <p className="text-gray-600">Fill in your soil test results below</p>
-      </div>
-      
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -50,7 +48,6 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter nitrogen content"
-            />
           </div>
 
           <div>
@@ -68,7 +65,6 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter phosphorus content"
-            />
           </div>
 
           <div>
@@ -87,11 +83,10 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter potassium content"
             />
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              pH Level
+            <label className="block text-sm font-medium text-gray-700 mb-1">
             </label>
             <input
               type="number"
@@ -104,7 +99,6 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter pH level"
-            />
           </div>
 
           <div>
@@ -121,11 +115,9 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               step="0.1"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
-              placeholder="Enter organic matter percentage"
             />
           </div>
 
-          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Moisture (%)
             </label>
@@ -139,11 +131,9 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               step="0.1"
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
-              placeholder="Enter moisture percentage"
             />
           </div>
 
-          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Temperature (°C)
             </label>
@@ -158,12 +148,10 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               required
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter soil temperature"
-            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Location (Optional)
             </label>
             <input
               type="text"
@@ -173,14 +161,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               placeholder="e.g., Farm Field A, North Plot"
               className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
             />
-          </div>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
           className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center"
-        >
+          className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center"
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin mr-2" />

@@ -36,10 +36,6 @@ export const FertilityResults = ({ prediction }) => {
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900">Analysis Results</h2>
-      </div>
-      
       <div className={`border rounded p-4 mb-6 ${getFertilityColor()}`}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-3">
@@ -56,15 +52,9 @@ export const FertilityResults = ({ prediction }) => {
             <div className="text-sm opacity-60">out of 100</div>
           </div>
         </div>
-
-        <div>
-          <h4 className="font-semibold mb-2">Why this rating:</h4>
-          <ul className="space-y-3">
-            {prediction.reasons.map((reason, index) => (
-              <li key={index} className="flex items-start space-x-3">
                 <div className="w-1 h-1 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
                 <span className="text-sm text-gray-700">{reason}</span>
-              </li>
+          <h4 className="font-semibold mb-2">Why this rating:</h4>
             ))}
           </ul>
         </div>
@@ -72,11 +62,8 @@ export const FertilityResults = ({ prediction }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-blue-50 rounded p-4 border border-blue-200">
-          <div className="mb-3">
-            <h4 className="font-semibold text-blue-900">Fertilizers</h4>
-          </div>
           <div className="space-y-1">
-            {prediction.recommendations.fertilizers.length > 0 ? (
+            <h4 className="font-semibold text-blue-900">Fertilizers</h4>
               prediction.recommendations.fertilizers.map((fertilizer, index) => (
                 <div key={index} className="text-sm text-blue-800 bg-white px-2 py-1 rounded">
                   {fertilizer}
@@ -86,8 +73,6 @@ export const FertilityResults = ({ prediction }) => {
               <p className="text-sm text-blue-700">None needed</p>
             )}
           </div>
-        </div>
-
         <div className="bg-green-50 rounded p-4 border border-green-200">
           <div className="mb-3">
             <h4 className="font-semibold text-green-900">Suitable Crops</h4>
@@ -104,8 +89,6 @@ export const FertilityResults = ({ prediction }) => {
         <div className="bg-orange-50 rounded p-4 border border-orange-200">
           <div className="mb-3">
             <h4 className="font-semibold text-orange-900">Improvements</h4>
-          </div>
-          <div className="space-y-1">
             {prediction.recommendations.improvements.length > 0 ? (
               prediction.recommendations.improvements.map((improvement, index) => (
                 <div key={index} className="text-sm text-orange-800 bg-white px-2 py-1 rounded">
@@ -116,7 +99,7 @@ export const FertilityResults = ({ prediction }) => {
               <p className="text-sm text-orange-700">None needed</p>
             )}
           </div>
-        </div>
+          <div className="space-y-1">
       </div>
     </div>
   );
