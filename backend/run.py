@@ -48,6 +48,13 @@ def create_app(config_name=None):
             db.session.add(demo_user)
             db.session.commit()
             print("Demo user created: demo@example.com / password")
+        
+        # Check if ML model exists
+        if os.path.exists('models/soil_fertility_model.pkl'):
+            print("✓ ML model found - using trained predictions")
+        else:
+            print("⚠ No ML model found - using rule-based predictions")
+            print("Run 'python ml_model/train_model.py' to train the ML model")
     
     return app
 

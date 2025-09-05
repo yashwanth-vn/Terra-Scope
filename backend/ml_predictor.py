@@ -1,6 +1,7 @@
 import numpy as np
 import joblib
 import os
+import json
 from typing import Dict, Any
 
 class SoilFertilityPredictor:
@@ -11,13 +12,18 @@ class SoilFertilityPredictor:
     def __init__(self, model_path=None):
         self.model = None
         self.scaler = None
+        self.feature_names = None
         self.feature_names = [
             'nitrogen', 'phosphorus', 'potassium', 'ph', 
             'organic_matter', 'moisture', 'temperature'
         ]
         
-        if model_path and os.path.exists(model_path):
+        # Try to load trained model
+        model_path = model_path or 'models/soil_fertility_model.pkl'
+        if os.path.exists(model_path):
             self.load_model(model_path)
+        else:
+            print("No trained model found. Using rule-based predictions.")
     
     def load_model(self, model_path: str):
         """
@@ -31,8 +37,16 @@ class SoilFertilityPredictor:
             scaler_path = model_path.replace('.pkl', '_scaler.pkl')
             if os.path.exists(scaler_path):
                 self.scaler = joblib.load(scaler_path)
+            
+            # Load feature names if available
+            feature_path = os.path.join(os.path.dirname(model_path), 'feature_names.pkl')
+            if os.path.exists(feature_path):
+                self.feature_names = joblib.load(feature_path)
                 
             print(f"Model loaded successfully from {model_path}")
+            print(f"Model type: {type(self.model).__name__}")
+            if hasattr(self.model, 'n_estimators'):
+                print(f"Number of estimators: {self.model.n_estimators}")
         except Exception as e:
             print(f"Error loading model: {e}")
             self.model = None
@@ -79,14 +93,21 @@ class SoilFertilityPredictor:
             prediction = self.model.predict(features)[0]
             
             # Get prediction probabilities if available
+            confidence = 0.85  # Default confidence
             if hasattr(self.model, 'predict_proba'):
                 probabilities = self.model.predict_proba(features)[0]
                 confidence = max(probabilities)
-            else:
-                confidence = 0.85  # Default confidence
+                
+                # Get class probabilities for detailed analysis
+                classes = self.model.classes_
+                prob_dict = dict(zip(classes, probabilities))
             
-            # Convert prediction to fertility level
+            # The prediction is already a fertility level from our trained model
+            fertility_level = str(prediction)
+            
+            # Calculate score based on confidence and fertility level
             if isinstance(prediction, (int, float)):
+                # If model returns numeric score
                 if prediction > 0.8:
                     fertility_level = 'High'
                     score = int(prediction * 100)
@@ -97,12 +118,17 @@ class SoilFertilityPredictor:
                     fertility_level = 'Low'
                     score = int(prediction * 100)
             else:
-                # If prediction is categorical
+                # If prediction is categorical (our case)
                 fertility_level = str(prediction)
-                score = int(confidence * 100)
+                if fertility_level == 'High':
+                    score = int(75 + confidence * 25)  # 75-100
+                elif fertility_level == 'Medium':
+                    score = int(50 + confidence * 25)  # 50-75
+                else:
+                    score = int(confidence * 50)       # 0-50
             
             # Generate explanations based on ML prediction
-            reasons = self._generate_ml_explanations(soil_data, fertility_level)
+            reasons = self._generate_ml_explanations(soil_data, fertility_level, confidence)
             recommendations = self._generate_recommendations(soil_data, fertility_level)
             
             return {
@@ -118,37 +144,71 @@ class SoilFertilityPredictor:
             # Fallback to rule-based prediction
             return self._rule_based_prediction(soil_data)
     
-    def _generate_ml_explanations(self, soil_data: Dict[str, Any], fertility_level: str) -> list:
+    def _generate_ml_explanations(self, soil_data: Dict[str, Any], fertility_level: str, confidence: float = 0.85) -> list:
         """
-        Generate explanations based on ML model insights
+        Generate explanations based on ML model insights and feature importance
         """
         reasons = []
         
-        # Analyze each parameter and provide insights
+        # Add confidence-based explanation
+        if confidence > 0.9:
+            reasons.append(f'ML model predicts {fertility_level.lower()} fertility with very high confidence ({confidence:.1%})')
+        elif confidence > 0.8:
+            reasons.append(f'ML model predicts {fertility_level.lower()} fertility with high confidence ({confidence:.1%})')
+        else:
+            reasons.append(f'ML model predicts {fertility_level.lower()} fertility with moderate confidence ({confidence:.1%})')
+        
+        # Feature importance analysis (if available)
+        if hasattr(self.model, 'feature_importances_'):
+            feature_importance = dict(zip(self.feature_names, self.model.feature_importances_))
+            top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:3]
+            
+            reasons.append(f'Key factors: {", ".join([f.replace("_", " ") for f, _ in top_features])}')
+        
+        # Analyze each parameter and provide insights based on soil science
         if soil_data['nitrogen'] < 20:
-            reasons.append('ML model indicates nitrogen deficiency is limiting fertility')
+            reasons.append('Nitrogen deficiency detected - critical for plant growth and leaf development')
         elif soil_data['nitrogen'] > 50:
-            reasons.append('ML model shows optimal nitrogen levels contributing to high fertility')
+            reasons.append('Excellent nitrogen levels support vigorous plant growth')
+        else:
+            reasons.append('Nitrogen levels are adequate for most crops')
         
         if soil_data['phosphorus'] < 15:
-            reasons.append('Model detects phosphorus limitation affecting root development')
+            reasons.append('Low phosphorus may limit root development and flowering')
         elif soil_data['phosphorus'] > 30:
-            reasons.append('Model indicates excellent phosphorus availability')
+            reasons.append('Optimal phosphorus levels promote strong root systems')
+        else:
+            reasons.append('Phosphorus levels support normal plant development')
         
         if soil_data['potassium'] < 100:
-            reasons.append('Model shows potassium deficiency impacting plant stress tolerance')
+            reasons.append('Potassium deficiency may reduce disease resistance and stress tolerance')
         elif soil_data['potassium'] > 200:
-            reasons.append('Model indicates optimal potassium levels for disease resistance')
+            reasons.append('Excellent potassium levels enhance plant resilience')
+        else:
+            reasons.append('Potassium levels are sufficient for plant health')
         
         if soil_data['ph'] < 6.0 or soil_data['ph'] > 8.0:
-            reasons.append('Model detects pH imbalance affecting nutrient availability')
+            reasons.append('pH levels outside optimal range may limit nutrient uptake')
         else:
-            reasons.append('Model shows pH levels are within optimal range')
+            reasons.append('pH levels are ideal for maximum nutrient availability')
         
         if soil_data['organic_matter'] < 2:
-            reasons.append('Model indicates low organic matter reducing soil health')
+            reasons.append('Low organic matter limits soil structure and water retention')
         elif soil_data['organic_matter'] > 4:
-            reasons.append('Model shows excellent organic matter content')
+            reasons.append('Rich organic matter content enhances soil biology')
+        else:
+            reasons.append('Organic matter levels support healthy soil ecosystem')
+        
+        # Environmental factors
+        if soil_data['moisture'] < 30 or soil_data['moisture'] > 80:
+            reasons.append('Moisture levels may stress plants - optimal range is 30-70%')
+        else:
+            reasons.append('Soil moisture is within ideal range for plant growth')
+        
+        if soil_data['temperature'] < 15 or soil_data['temperature'] > 30:
+            reasons.append('Soil temperature outside optimal range may slow nutrient uptake')
+        else:
+            reasons.append('Soil temperature supports active root growth and nutrient absorption')
         
         return reasons
     
