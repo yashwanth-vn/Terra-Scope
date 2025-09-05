@@ -179,5 +179,6 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
         </button>
       </form>
     </div>
+  )
   );
 };
