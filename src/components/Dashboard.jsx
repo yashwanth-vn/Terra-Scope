@@ -101,8 +101,8 @@ export const Dashboard = () => {
               <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <BarChart3 className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">95%</h3>
-              <p className="text-gray-600">Prediction Accuracy</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">90%</h3>
+              <p className="text-gray-600">ML Model Accuracy</p>
             </div>
             <div className="text-center">
               <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -118,6 +118,17 @@ export const Dashboard = () => {
               <h3 className="text-xl font-bold text-gray-900 mb-2">30%</h3>
               <p className="text-gray-600">Average Yield Increase</p>
             </div>
+          </div>
+          
+          <div className="mt-8 p-4 bg-green-50 rounded-lg border border-green-200">
+            <div className="flex items-center space-x-2 mb-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <h4 className="font-semibold text-green-800">Powered by Machine Learning</h4>
+            </div>
+            <p className="text-green-700 text-sm">
+              Our Random Forest model analyzes 7 key soil parameters with 90% accuracy, 
+              trained on thousands of soil samples to provide precise fertility predictions.
+            </p>
           </div>
         </div>
 
