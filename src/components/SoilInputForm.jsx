@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Loader2, MapPin, Thermometer, Droplets, Beaker } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 export const SoilInputForm = ({ onSubmit, isLoading }) => {
   const [formData, setFormData] = useState({
@@ -27,18 +27,16 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-      <div className="flex items-center space-x-3 mb-6">
-        <div className="bg-green-100 p-2 rounded-lg">
-          <Beaker className="w-6 h-6 text-green-600" />
-        </div>
-        <h2 className="text-2xl font-bold text-gray-900">Soil Analysis Input</h2>
+    <div className="bg-white rounded-lg shadow p-6">
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-gray-900 mb-2">Enter Soil Data</h2>
+        <p className="text-gray-600">Fill in your soil test results below</p>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Nitrogen (ppm)
             </label>
             <input
@@ -50,14 +48,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="100"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter nitrogen content"
             />
-            <p className="text-xs text-gray-500 mt-1">Essential for plant growth and leaf development</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Phosphorus (ppm)
             </label>
             <input
@@ -69,14 +66,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="100"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter phosphorus content"
             />
-            <p className="text-xs text-gray-500 mt-1">Important for root development and flowering</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Potassium (ppm)
             </label>
             <input
@@ -88,14 +84,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="500"
               step="1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter potassium content"
             />
-            <p className="text-xs text-gray-500 mt-1">Helps with disease resistance and water regulation</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               pH Level
             </label>
             <input
@@ -107,14 +102,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="14"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter pH level"
             />
-            <p className="text-xs text-gray-500 mt-1">Optimal range: 6.0 - 7.5 for most crops</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Organic Matter (%)
             </label>
             <input
@@ -126,15 +120,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="10"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter organic matter percentage"
             />
-            <p className="text-xs text-gray-500 mt-1">Improves soil structure and water retention</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <Droplets className="w-4 h-4 inline mr-1" />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Moisture (%)
             </label>
             <input
@@ -146,15 +138,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="100"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter moisture percentage"
             />
-            <p className="text-xs text-gray-500 mt-1">Current soil moisture content</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <Thermometer className="w-4 h-4 inline mr-1" />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Temperature (°C)
             </label>
             <input
@@ -166,15 +156,13 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               max="50"
               step="0.1"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
               placeholder="Enter soil temperature"
             />
-            <p className="text-xs text-gray-500 mt-1">Affects nutrient availability and microbial activity</p>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              <MapPin className="w-4 h-4 inline mr-1" />
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Location (Optional)
             </label>
             <input
@@ -183,24 +171,23 @@ export const SoilInputForm = ({ onSubmit, isLoading }) => {
               value={formData.location}
               onChange={handleInputChange}
               placeholder="e.g., Farm Field A, North Plot"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+              className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-green-500"
             />
-            <p className="text-xs text-gray-500 mt-1">Help identify and track different field areas</p>
           </div>
         </div>
 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-green-600 text-white py-4 rounded-lg hover:bg-green-700 transition-colors font-medium flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+          className="w-full bg-green-600 text-white py-3 rounded hover:bg-green-700 disabled:opacity-50 flex items-center justify-center"
         >
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
-              Analyzing Soil...
+              Analyzing...
             </>
           ) : (
-            'Analyze Soil Fertility'
+            'Analyze Soil'
           )}
         </button>
       </form>
