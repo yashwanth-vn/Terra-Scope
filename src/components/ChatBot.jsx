@@ -111,6 +111,8 @@ export const ChatBot = ({ isOpen, onClose }) => {
               <p className="text-sm">{message.text}</p>
             </div>
           </div>
+        )
+        )
         ))}
         
         {isTyping && (
@@ -152,7 +154,10 @@ export const ChatBot = ({ isOpen, onClose }) => {
                   ? 'bg-red-600 text-white'
                   : 'bg-gray-200 text-gray-600'
               }`}
+          )
+          }
       </div>
     </div>
+  )
   );
 };
