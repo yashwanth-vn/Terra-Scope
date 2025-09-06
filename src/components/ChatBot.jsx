@@ -91,9 +91,15 @@ export const ChatBot = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed bottom-4 right-4 w-80 h-96 bg-white rounded-lg shadow-xl border flex flex-col z-40">
-          className="p-1 hover:bg-gray-200 rounded"
+      <div className="flex justify-between items-center p-3 border-b">
         <div>
           <h3 className="font-semibold text-gray-900">Chat Assistant</h3>
+        </div>
+        <button
+          onClick={onClose}
+          className="p-1 hover:bg-gray-200 rounded"
+        >
+          <X className="w-4 h-4" />
         </button>
       </div>
 
@@ -104,15 +110,15 @@ export const ChatBot = ({ isOpen, onClose }) => {
             className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
           >
             <div
+              className={`max-w-xs px-3 py-2 rounded text-sm ${
                 message.isUser
-                  : 'bg-gray-100 text-gray-900'
                   ? 'bg-green-600 text-white'
                   : 'bg-gray-100 text-gray-900'
+              }`}
+            >
               <p className="text-sm">{message.text}</p>
             </div>
           </div>
-        )
-        )
         ))}
         
         {isTyping && (
@@ -154,10 +160,19 @@ export const ChatBot = ({ isOpen, onClose }) => {
                   ? 'bg-red-600 text-white'
                   : 'bg-gray-200 text-gray-600'
               }`}
-          )
-          }
+            >
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            </button>
+          )}
+          
+          <button
+            onClick={handleSendMessage}
+            className="bg-green-600 text-white p-2 rounded hover:bg-green-700"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
-  )
   );
 };
